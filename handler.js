@@ -348,10 +348,10 @@ throw !1
 
 global.dfail = (type, m, conn) => {
     const msg = {
-        owner: `🕸 El comando *${comando}* solo puede ser ejecutado por mi Creador.`,
-        moderation: `🕸 El comando *${comando}* solo puede ser ejecutado por los moderadores.`,
-        admin: `🕸 El comando *${comando}* solo puede ser ejecutado por los Administradores del Grupo.`,
-        botAdmin: `🕸 El comando *${comando}* solo puede ser ejecutado si el Socket es Administrador del Grupo.`
+    owner: `💖 Oooh~ el comando *${comando}* solo lo puede usar mi Creador UwU`,
+    moderation: `💌 El comando *${comando}* solo lo pueden usar los moderadores, ne~`,
+    admin: `🌸 El comando *${comando}* solo lo pueden usar los Admins del grupo, senpai~`,
+    botAdmin: `✨ El comando *${comando}* necesita que yo sea Admin del grupo, por favor~`
     }[type];
     if (msg) return m.reply(msg)
 }
