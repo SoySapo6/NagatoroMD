@@ -15,7 +15,6 @@ export async function before(m, { groupMetadata }) {
     return false;
   };
 
-
   let chat = globalThis.db.data.chats[m.chat];
   let id = this.user.jid;
   let settings = globalThis.db.data.settings[id];
@@ -27,33 +26,13 @@ export async function before(m, { groupMetadata }) {
   if (command === 'mute') return;
   if (chat.bannedGrupo && !owner) return
 
-/*try {
-let chtxt = ` ֯　ׅ🫗ֶ֟ㅤ *Usuario ›* ${m.pushName}
-
- ׄ 🎋 ׅ り *Comando usado ›* ${command}
- ׄ 🌾 ׅ り *Visita ›* api.stellarwa.xyz
- ׄ 🌿 ׅ り *Bot ›* ${wm}
- ׄ 🥗 ׅ り *Versión del bot ›* ^0.0.9`
-
-let ppch = await this.profilePictureUrl(m.sender, 'image').catch(_ => "https://stellarwa.xyz/files/1757206448404.jpeg")
-global.conn.sendMessage(my.ch5, { text: chtxt,
-contextInfo: { 
-externalAdReply: {
-title: "🕸 𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗖𝗜𝗢́𝗡 🕸",
-body: '🐼 ¡Nuevo comando usado!',
-thumbnailUrl: ppch,
-sourceUrl: redes,
-mediaType: 2,
-showAdAttribution: false,
-renderLargerThumbnail: false
-}}}, { quoted: null }) 
-} catch (e) {
-console.log(`[ 🐼  ]  Error al enviar el mensaje al canal.\n[ 🕸  ]  ${e}`)
-}*/
-
   if (validCommand(command, globalThis.plugins)) {
+    // Comando válido, no hacemos nada
   } else {
     const comando = command;
-    await m.reply(`🕸 El comando *${comando}* no existe.\n> Usa *${usedPrefix}help* para ver la lista de comandos disponibles.`);
+    await m.reply(
+      `💖 Oooh~ el comando *${comando}* no existe, ne~\n` +
+      `> Usa *${usedPrefix}help* para ver todos los comandos disponibles UwU`
+    );
   }
 }
