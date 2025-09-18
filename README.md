@@ -6,7 +6,7 @@
        loading="eager">
 </p>
 
-> Senpai~ ¿Eres virgen, verdad?” ( ͡° ͜ʖ ͡°)
+> Senpai~ ¿Eres virgen, verdad?” 
 
 ---
 
@@ -23,7 +23,7 @@ porque no hay escape de mis travesuras <3 ¿Listo para que te pinche, moleste y 
 <p align="center">
   <span style="font-size: 3em; font-weight: bold; color: #ff4500; letter-spacing: 2px; text-shadow: 1px 1px 2px #555;">
     > 𝕊𝕠𝕪𝐌𝐚𝐲𝐜𝐨𝐥 < <br>
-    > Desarrollador Joven < 
+     Desarrollador Joven  
   </span>
   <br><br>
   <a href="https://github.com/SoySapo6">
