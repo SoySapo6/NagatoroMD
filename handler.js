@@ -1,5 +1,5 @@
 import { smsg } from './lib/simple.js'
-import { format } from 'util' 
+import { format } from 'util'
 import { fileURLToPath } from 'url'
 import path, { join } from 'path'
 import fs, { unwatchFile, watchFile } from 'fs'
@@ -33,8 +33,8 @@ export async function handler(chatUpdate) {
         try {
             const user = globalThis.db.data.users[m.sender]
             if (typeof user !== "object")
-
                 globalThis.db.data.users[m.sender] = {}
+            
             if (user) {
                 if (!("name" in user))
                     user.name = ''
@@ -50,16 +50,18 @@ export async function handler(chatUpdate) {
                     user.level = 0
             } else
                 globalThis.db.data.users[m.sender] = {
-            name: '',
-            chocolates: 0,
-            bank: 0,
-            exp: 0,
-            usedcommands: 0,
-            level: 0
+                    name: '',
+                    chocolates: 0,
+                    bank: 0,
+                    exp: 0,
+                    usedcommands: 0,
+                    level: 0
                 }
+            
             const chat = globalThis.db.data.chats[m.chat]
             if (typeof chat !== "object")
                 globalThis.db.data.chats[m.chat] = {}
+            
             if (chat) {
                 if (!("sWelcome" in chat))
                     chat.sWelcome = ''
@@ -81,7 +83,7 @@ export async function handler(chatUpdate) {
                     chat.bannedGrupo = false
                 if (!isNumber(chat.expired))
                     chat.expired = 0
-} else {
+            } else {
                 globalThis.db.data.chats[m.chat] = {
                     sWelcome: '',
                     sBye: '',
@@ -92,14 +94,15 @@ export async function handler(chatUpdate) {
                     adminonly: false,
                     antilinks: true,
                     bannedGrupo: false
-                }}
-                   
+                }
+            }
+
             const settings = globalThis.db.data.settings[this.user.jid]
             if (typeof settings !== "object") globalThis.db.data.settings[this.user.jid] = {}
             if (settings) {
-                if (!('self' in settings))                
+                if (!('self' in settings))
                     settings.self = false
-                if (!('botcommando' in settings))                
+                if (!('botcommando' in settings))
                     settings.botcommando = 0
             } else globalThis.db.data.settings[this.user.jid] = {
                 self: false,
@@ -108,12 +111,16 @@ export async function handler(chatUpdate) {
         } catch (err) {
             console.error(err)
         }
+        
+        // CORRECCIÓN: Asegurar que m.text sea una cadena
         if (typeof m.text !== "string")
             m.text = ""
+        
         const user = globalThis.db.data.users[m.sender]
         const chat = globalThis.db.data.chats[m.chat]
         globalThis.setting = globalThis.db.data.settings[this.user.jid]
         const isOwner = [...globalThis.owner.map((number) => number)].map(v => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
+        
         if (opts["queque"] && m.text && !(isMods)) {
             const queque = this.msgqueque, time = 1000 * 5
             const previousID = queque[queque.length - 1]
@@ -123,13 +130,15 @@ export async function handler(chatUpdate) {
                 await delay(time)
             }, time)
         }
+        
         if (m.isBaileys) {
             return
         }
+        
         m.exp += Math.ceil(Math.random() * 10)
         let usedPrefix
         const groupMetadata = m.isGroup ? { ...(conn.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}), ...(((conn.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}).participants) && { participants: ((conn.chats[m.chat]?.metadata || await this.groupMetadata(m.chat).catch(_ => null) || {}).participants || []).map(p => ({ ...p, id: p.jid, jid: p.jid, lid: p.lid })) }) } : {};
-    const participants = ((m.isGroup ? groupMetadata.participants : []) || []).map(participant => ({ id: participant.jid, jid: participant.jid, lid: participant.lid, admin: participant.admin }));
+        const participants = ((m.isGroup ? groupMetadata.participants : []) || []).map(participant => ({ id: participant.jid, jid: participant.jid, lid: participant.lid, admin: participant.admin }));
         const userGroup = (m.isGroup ? participants.find(u => conn.decodeJid(u.jid) === m.sender) : {}) || {}
         const botGroup = m.isGroup ? participants.find(u => conn.decodeJid(u.jid) === this.user.jid) : "";
         const isRAdmin = userGroup?.admin == "superadmin" || false
@@ -159,10 +168,12 @@ export async function handler(chatUpdate) {
                     console.error(err)
                 }
             }
+            
             if (!opts["restrict"])
                 if (plugin.tags && plugin.tags.includes("admin")) {
                     continue
                 }
+            
             const strRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&")
             const pluginPrefix = plugin.customPrefix || conn.prefix || globalThis.prefix
             const match = (pluginPrefix instanceof RegExp ?
@@ -178,7 +189,8 @@ export async function handler(chatUpdate) {
                         [[new RegExp(strRegex(pluginPrefix)).exec(m.text), new RegExp(strRegex(pluginPrefix))]] :
                         [[[], new RegExp]]
             ).find(prefix => prefix[1])
-                 if (typeof plugin.before === "function") {
+            
+            if (typeof plugin.before === "function") {
                 if (await plugin.before.call(this, m, {
                     match,
                     conn: this,
@@ -198,11 +210,14 @@ export async function handler(chatUpdate) {
                     continue
                 }
             }
+            
             if (typeof plugin !== "function") {
                 continue
             }
+            
             if ((usedPrefix = (match[0] || "")[0])) {
-                const noPrefix = m.text.replace(usedPrefix, "")
+                // CORRECCIÓN: Verificar que m.text sea string antes de usar replace
+                const noPrefix = typeof m.text === "string" ? m.text.replace(usedPrefix, "") : ""
                 let [command, ...args] = noPrefix.trim().split(" ").filter(v => v)
                 args = args || []
                 let _args = noPrefix.trim().split(" ").slice(1)
@@ -219,61 +234,63 @@ export async function handler(chatUpdate) {
                             plugin.command === command :
                             false
 
+                // CORRECCIÓN: Definir comando globalmente
                 globalThis.comando = command
 
-        const isVotOwn = [this.user.jid, ...globalThis.owner.map(([number]) => number + "@s.whatsapp.net")].includes(m.sender);
+                const isVotOwn = [this.user.jid, ...globalThis.owner.map(([number]) => number + "@s.whatsapp.net")].includes(m.sender);
 
-        if (globalThis.db.data.settings[this.user.jid].self) {
+                if (globalThis.db.data.settings[this.user.jid].self) {
+                    if (!isVotOwn && !isModeration) {
+                        return
+                    } else {
+                    }
+                }
 
-        if (!isVotOwn && !isModeration) {
-        return
-        } else {
-        }
-        }
-
-// Primary by: Alex 🐼
-if (globalThis.db.data.chats[m.chat].primaryBot && globalThis.db.data.chats[m.chat].primaryBot !== this.user.jid) {
-const primaryBotConn = globalThis.conns.find(conn => conn.user.jid === globalThis.db.data.chats[m.chat].primaryBot && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
-const participants = m.isGroup ? (await this.groupMetadata(m.chat).catch(() => ({ participants: [] }))).participants : []
-const primaryBotInGroup = participants.some(p => p.jid === globalThis.db.data.chats[m.chat].primaryBot)
-if (primaryBotConn && primaryBotInGroup || globalThis.db.data.chats[m.chat].primaryBot === globalThis.conn.user.jid) {
-throw !1
-} else {
-// globalThis.db.data.chats[m.chat].primaryBot = null
-}} else {
-}
+                // Primary by: Alex 🐼
+                if (globalThis.db.data.chats[m.chat].primaryBot && globalThis.db.data.chats[m.chat].primaryBot !== this.user.jid) {
+                    const primaryBotConn = globalThis.conns.find(conn => conn.user.jid === globalThis.db.data.chats[m.chat].primaryBot && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)
+                    const participants = m.isGroup ? (await this.groupMetadata(m.chat).catch(() => ({ participants: [] }))).participants : []
+                    const primaryBotInGroup = participants.some(p => p.jid === globalThis.db.data.chats[m.chat].primaryBot)
+                    if (primaryBotConn && primaryBotInGroup || globalThis.db.data.chats[m.chat].primaryBot === globalThis.conn.user.jid) {
+                        throw !1
+                    } else {
+                        // globalThis.db.data.chats[m.chat].primaryBot = null
+                    }
+                } else {
+                }
 
                 if (!isAccept) {
                     continue
                 }
 
-            globalThis.db.data.settings[mconn.conn.user.jid].botcommando += 1
+                globalThis.db.data.settings[mconn.conn.user.jid].botcommando += 1
 
                 m.plugin = name
                 if (chat) {
-
                     if (name !== "grupo-mute.js" && chat?.bannedGrupo && !isOwner) return
-             }
-                 if (chat) {
+                }
+                
+                if (chat) {
                     if (name != "grupo-mute.js" && chat?.bannedGrupo && !isOwner)
                         return
-                 }
+                }
 
-  if (!m.chat.endsWith('g.us')) {
-    if (!global.owner.map((num) => num + '@s.whatsapp.net').includes(m.sender))
-    {
-      return
-    } else {
-    }
-  }
+                if (!m.chat.endsWith('g.us')) {
+                    if (!global.owner.map((num) => num + '@s.whatsapp.net').includes(m.sender)) {
+                        return
+                    } else {
+                    }
+                }
 
                 const adminMode = chat.adminonly || false
                 const wa = plugins.botAdmin || plugins.admin || plugins.group || plugins || noPrefix || pluginPrefix || m.text.slice(0, 1) === pluginPrefix || plugins.command
                 if (adminMode && !isOwner && m.isGroup && !isAdmin && wa) return
+                
                 if (plugin.owner && !(isOwner)) {
                     fail("owner", m, this)
                     continue
                 }
+                
                 if (plugin.owner && !isOwner) {
                     fail("owner", m, this)
                     continue
@@ -284,8 +301,10 @@ throw !1
                     fail("admin", m, this)
                     continue
                 }
+                
                 m.isCommand = true
                 m.exp += plugin.exp ? parseInt(plugin.exp) : 10
+                
                 let extra = {
                     match,
                     usedPrefix,
@@ -308,6 +327,7 @@ throw !1
                     ___dirname,
                     __filename
                 }
+                
                 try {
                     await plugin.call(this, m, extra)
                 } catch (err) {
@@ -346,12 +366,13 @@ throw !1
     }
 }
 
+// CORRECCIÓN: Usar globalThis.comando en lugar de comando
 global.dfail = (type, m, conn) => {
     const msg = {
-    owner: `💖 Oooh~ el comando *${comando}* solo lo puede usar mi Creador UwU`,
-    moderation: `💌 El comando *${comando}* solo lo pueden usar los moderadores, ne~`,
-    admin: `🌸 El comando *${comando}* solo lo pueden usar los Admins del grupo, senpai~`,
-    botAdmin: `✨ El comando *${comando}* necesita que yo sea Admin del grupo, por favor~`
+        owner: `💖 Oooh~ el comando *${globalThis.comando || 'desconocido'}* solo lo puede usar mi Creador UwU`,
+        moderation: `💌 El comando *${globalThis.comando || 'desconocido'}* solo lo pueden usar los moderadores, ne~`,
+        admin: `🌸 El comando *${globalThis.comando || 'desconocido'}* solo lo pueden usar los Admins del grupo, senpai~`,
+        botAdmin: `✨ El comando *${globalThis.comando || 'desconocido'}* necesita que yo sea Admin del grupo, por favor~`
     }[type];
     if (msg) return m.reply(msg)
-}
+                }
