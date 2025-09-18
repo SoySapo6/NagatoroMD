@@ -7,38 +7,41 @@ const lidCache = new Map();
 let handler = m => m
 handler.before = async function (m, { conn, participants, groupMetadata }) {
 
-if (!m.messageStubType || !m.isGroup) return
-let chat = globalThis.db.data.chats[m.chat]
-let userss = m.messageStubParameters[0]
-const realSender = await resolveLidToRealJid(m?.sender, conn, m?.chat);
+    if (!m.messageStubType || !m.isGroup) return
+    let chat = globalThis.db.data.chats[m.chat]
+    let userss = m.messageStubParameters[0]
+    const realSender = await resolveLidToRealJid(m?.sender, conn, m?.chat);
 
-let admingp, noadmingp
-admingp = `🕸 @${userss.split('@')[0]} ha sido promovido a Administrador por @${realSender.split('@')[0]}`
-noadmingp =  `🕸 @${userss.split('@')[0]} ha sido degradado de Administrador por @${realSender.split('@')[0]}`
+    const admingp = `💖 @${userss.split('@')[0]} ha sido promovido a Admin~ por @${realSender.split('@')[0]} UwU`
+    const noadmingp = `💔 @${userss.split('@')[0]} ha sido degradado de Admin~ por @${realSender.split('@')[0]} ne~`
 
-if (chat.detect && m.messageStubType == 2) {
-const uniqid = (m.isGroup ? m.chat : m.sender).split('@')[0]
-const sessionPath = `./${sessions}/`
-for (const file of await fs.readdir(sessionPath)) {
-if (file.includes(uniqid)) {
-await fs.unlink(path.join(sessionPath, file))
-console.log(`${chalk.yellow.bold('✎ Delete!')} ${chalk.greenBright(`'${file}'`)}\n${chalk.redBright('Que provoca el "undefined" en el chat.')}`)
-}}
+    if (chat.detect && m.messageStubType == 2) {
+        const uniqid = (m.isGroup ? m.chat : m.sender).split('@')[0]
+        const sessionPath = `./${sessions}/`
+        for (const file of await fs.readdir(sessionPath)) {
+            if (file.includes(uniqid)) {
+                await fs.unlink(path.join(sessionPath, file))
+                console.log(`${chalk.yellow.bold('✎ Delete!')} ${chalk.greenBright(`'${file}'`)}\n${chalk.redBright('Esto evita el "undefined" en el chat.')}`)
+            }
+        }
+    }
 
-} if (chat.alerts && m.messageStubType == 29) {
-await conn.sendMessage(m.chat, { text: admingp, mentions: [userss, realSender] }, { quoted: null })  
-
-return;
-} if (chat.alerts && m.messageStubType == 30) {
-await conn.sendMessage(m.chat, { text: noadmingp, mentions: [userss, realSender] }, { quoted: null })  
-
-} else { 
-if (m.messageStubType == 2) return
-console.log({messageStubType: m.messageStubType,
-messageStubParameters: m.messageStubParameters,
-type: WAMessageStubType[m.messageStubType], 
-})
-}}
+    if (chat.alerts && m.messageStubType == 29) {
+        await conn.sendMessage(m.chat, { text: admingp, mentions: [userss, realSender] }, { quoted: null })  
+        return;
+    } 
+    
+    if (chat.alerts && m.messageStubType == 30) {
+        await conn.sendMessage(m.chat, { text: noadmingp, mentions: [userss, realSender] }, { quoted: null })  
+    } else { 
+        if (m.messageStubType == 2) return
+        console.log({
+            messageStubType: m.messageStubType,
+            messageStubParameters: m.messageStubParameters,
+            type: WAMessageStubType[m.messageStubType], 
+        })
+    }
+}
 export default handler
 
 async function resolveLidToRealJid(lid, conn, groupChatId, maxRetries = 3, retryDelay = 60000) {
