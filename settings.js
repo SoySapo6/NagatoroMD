@@ -4,7 +4,10 @@ import { fileURLToPath } from "url"
 
 global.botNumber = ""
 
-global.owner = ["5492916450307"]
+global.owner = [
+   ['51921826291', 'SoyMaycol', true],
+    ['180650938249287', 'SoyMaycol', true]
+]
 
 global.botname = '𝐍𝐚𝐠𝐚𝐭𝐨𝐫𝐨'        // estilo negrita elegante
 global.namebot = '𝗡𝗮𝗴𝗮𝘁𝗼𝗿𝗼 𝐁𝐨𝐭'     // estilo bold moderno
