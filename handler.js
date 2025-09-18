@@ -119,7 +119,7 @@ export async function handler(chatUpdate) {
         const user = globalThis.db.data.users[m.sender]
         const chat = globalThis.db.data.chats[m.chat]
         globalThis.setting = globalThis.db.data.settings[this.user.jid]
-        const isOwner = [...globalThis.owner.map((number) => number)].map(v => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
+        const isOwner = [...globalThis.owner.map((number) => number)].map(v => String(v).replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(m.sender)
         
         if (opts["queque"] && m.text && !(isMods)) {
             const queque = this.msgqueque, time = 1000 * 5
@@ -237,7 +237,7 @@ export async function handler(chatUpdate) {
                 // CORRECCIÓN: Definir comando globalmente
                 globalThis.comando = command
 
-                const isVotOwn = [this.user.jid, ...globalThis.owner.map(([number]) => number + "@s.whatsapp.net")].includes(m.sender);
+                const isVotOwn = [this.user.jid, ...globalThis.owner.map((number) => String(number) + "@s.whatsapp.net")].includes(m.sender);
 
                 if (globalThis.db.data.settings[this.user.jid].self) {
                     if (!isVotOwn && !isModeration) {
@@ -276,7 +276,7 @@ export async function handler(chatUpdate) {
                 }
 
                 if (!m.chat.endsWith('g.us')) {
-                    if (!global.owner.map((num) => num + '@s.whatsapp.net').includes(m.sender)) {
+                    if (!globalThis.owner.map((num) => String(num) + '@s.whatsapp.net').includes(m.sender)) {
                         return
                     } else {
                     }
@@ -375,4 +375,4 @@ global.dfail = (type, m, conn) => {
         botAdmin: `✨ El comando *${globalThis.comando || 'desconocido'}* necesita que yo sea Admin del grupo, por favor~`
     }[type];
     if (msg) return m.reply(msg)
-                }
+                        }
