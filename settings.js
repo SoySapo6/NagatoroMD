@@ -11,7 +11,7 @@ global.owner = [
 
 global.botname = '𝐍𝐚𝐠𝐚𝐭𝐨𝐫𝐨'        // estilo negrita elegante
 global.namebot = '𝗡𝗮𝗴𝗮𝘁𝗼𝗿𝗼 𝐁𝐨𝐭'     // estilo bold moderno
-global.bot = 'ＮａｇａｔｏｒｏＢｏｔ'      // estilo ancho tipo monoespaciado
+global.bot = 'NagatoroMD'      // estilo ancho tipo monoespaciado
 global.packname = 'ᴺᵃᵍᵃᵗᵒʳᵒᴹᴰ'  // estilo cuadriculado divertido
 global.wm = '☆ Nagatoro MD ☆'           // estilo simple con decoraciones
 global.author = '˚₊· ͟͟͞͞➳❥ 𝚂𝚘𝚢𝙼𝚊𝚢𝚌𝚘𝚕'
