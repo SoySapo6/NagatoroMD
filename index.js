@@ -34,16 +34,20 @@ let { say } = cfonts
 
 console.log(chalk.magentaBright('\nIniciando...'))
 
-say('SakuraBot', {
-  font: 'simple',
-  align: 'left',
-  gradient: ['green', 'white']
+say('NagatoroMD', {
+  font: 'block',
+  align: 'center',
+  gradient: ['white', 'grey']
 })
-say('Powered By Night Light', {
+say('Hecho por SoyMaycol <3', {
   font: 'console',
   align: 'center',
   colors: ['cyan', 'magenta', 'yellow']
 })
+
+if (!existsSync("./tmp")) {
+  mkdirSync("./tmp");
+}
 
 protoType()
 serialize()
