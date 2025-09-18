@@ -1,11 +1,11 @@
 export async function before(m, { conn }) {
 
-var canal = 'https://whatsapp.com/channel/0029VbApwZ9ISTkEBb6ttS3F'
-var canal2 = 'https://whatsapp.com/channel/0029Vb6IdnEGU3BTahqaLL2V'
-var canal3 = 'https://whatsapp.com/channel/0029VbBVnhSBlHpUWKo19m2m'
+var canal = 'https://whatsapp.com/channel/0029VayXJte65yD6LQGiRB0R'
+var canal2 = 'https://whatsapp.com/channel/0029VayXJte65yD6LQGiRB0R'
+var canal3 = 'https://whatsapp.com/channel/0029VayXJte65yD6LQGiRB0R'
 var api = 'https://api.stellarwa.xyz'
-var git = 'https://github.com/DevAlexJs'
-var md = 'https://github.com/DevAlexJs/SakuraBot-MD'
+var git = 'https://github.com/SoySapo6'
+var md = 'https://github.com/SoySapo6/NagatoroMD/'
 
 globalThis.redes = [canal, canal2, canal3, api, git, md].getRandom()
 
