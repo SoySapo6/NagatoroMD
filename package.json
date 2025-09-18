@@ -1,6 +1,6 @@
 {
-  "name": "SakuraBot-MD",
-  "version": "0.0.9",
+  "name": "NagatoroMD",
+  "version": "1.0.0",
   "description": "Super WhatsApp Bot",
   "main": "index.js",
   "type": "module",
