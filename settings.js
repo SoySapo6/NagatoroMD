@@ -30,7 +30,7 @@ key: 'Diamond'
 
 global.my = {
   ch1: '120363372883715167@newsletter',
-  name4: '𝐒𝐨𝐲𝐌𝐚𝐲𝐜𝐨𝐥 <𝟑 • Actualizaciones'
+  name1: '𝐒𝐨𝐲𝐌𝐚𝐲𝐜𝐨𝐥 <𝟑 • Actualizaciones'
 }
 
 const file = fileURLToPath(import.meta.url)
